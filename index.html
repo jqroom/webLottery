@@ -147,6 +147,23 @@
                 var game;
 
                 $(function() {
+                    try{
+                        var webLottery = JSON.parse(localStorage.getItem('webLottery'))
+                        var prizes = webLottery.prizes.join('\n')
+                        var candidates = webLottery.candidates.join('\n')
+                        var title = webLottery.title
+                        var background = webLottery.background
+                        //var prizes = $.trim($('textarea[name=prizes]').val()).split('\n');
+                        $('textarea[name=prizes]').val(prizes);
+                        //var candidates = $.trim($('textarea[name=candidates]').val()).replace(/,/g, '\n').split('\n');
+                        $('textarea[name=candidates]').val(candidates);
+                        //var title = $('input[name=title]').val()
+                        $('input[name=title]').val(title)
+                        //var background = $('input[name=background_image]').val() 
+                        $('input[name=background_image]').val(background) 
+                    } catch(e) {
+                        console.error(e)
+                    }
                     $('#loading').hide();
                     $('#tabs').slideDown('fast');
                     $('#tabs').tabs();
@@ -415,6 +432,7 @@
                                 case 'close':
                                     self.action = '';
                                     on_close();
+                                    console.log(game)
                                     break;
                                 case 'step_open':
                                     self.action = 'rotate_start';
@@ -608,9 +626,19 @@
                     function save_setting() {
                         game.reset();
 
-                        var ps = $.trim($('textarea[name=prizes]').val()).split('\n');
-                        for (var i = 0; i < ps.length; i++) {
-                            var p = $.trim(ps[i]);
+                        var prizes = $.trim($('textarea[name=prizes]').val()).split('\n');
+                        var candidates = $.trim($('textarea[name=candidates]').val()).replace(/,/g, '\n').split('\n');
+                        var title = $('input[name=title]').val()
+                        var background = $('input[name=background_image]').val() 
+                        localStorage.setItem('webLottery', JSON.stringify({
+                            prizes: prizes,
+                            candidates: candidates,
+                            title: title,
+                            background: background,
+                        }))
+
+                        for (var i = 0; i < prizes.length; i++) {
+                            var p = $.trim(prizes[i]);
                             if (p.length == 0) {
                                 continue;
                             }
@@ -624,17 +652,16 @@
                             game.prizes.push(prize);
                         }
 
-                        var ps = $.trim($('textarea[name=candidates]').val()).replace(/,/g, '\n').split('\n');
-                        for (var i = 0; i < ps.length; i++) {
-                            var p = $.trim(ps[i]);
+                        for (var i = 0; i < candidates.length; i++) {
+                            var p = $.trim(candidates[i]);
                             if (p.length == 0) {
                                 continue;
                             }
                             game.candidates.push(p);
                         }
 
-                        $('#event_title span').html($('input[name=title]').val());
-                        $('#tabs-1').css('background', 'url(' + $('input[name=background_image]').val() + ') center center no-repeat');
+                        $('#event_title span').html(title);
+                        $('#tabs-1').css('background', 'url(' + background + ') center center no-repeat');
 
                         game.init();
                     }
