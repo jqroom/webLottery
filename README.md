@@ -1,5 +1,9 @@
 # webLottery
 网页抽奖程序，示例运行：[https://jqroom.github.io/webLottery/](https://jqroom.github.io/webLottery/)
+
+### 新增本地存储配置＋全屏
+新的线上地址：[https://lloydzhou.github.io/webLottery/](https://lloydzhou.github.io/webLottery/)
+
 ### 抽奖软件
 > 在浏览器上运行的抽奖程序
 
