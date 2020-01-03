@@ -172,10 +172,26 @@
                     save_setting();
                 });
 
+                function fullscreen(flag) {
+                    let elem = document.querySelector('#tabs-1');
+                    if (flag) {
+                      elem.requestFullscreen().catch(err => {
+                        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                      });
+                    } else {
+                      document.exitFullscreen();
+                    }
+                }
+
                 // 绑定回车键盘操作
                 $(document).keypress(function(e) {
+                    console.log(e.which)
                     switch (e.which) {
+                        case 113: // q
+                            fullscreen(false)
+                            break;
                         case 13:
+                            fullscreen(true)
                             game.process();
                             break;
                     }
